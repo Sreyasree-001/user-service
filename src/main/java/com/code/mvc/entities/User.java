@@ -40,6 +40,7 @@ public class User {
     @Column(name = "email",nullable = false,unique = true)
     private String email;
 
+    @NotBlank
     @Pattern(regexp = "^(\\\\+91)?[6-9][0-9]{9}$", message = "Enter correct phone number ex:+919876543210")
     @Size(min = 10,max=15, message = "Phone number length is invalid")
     @Column(name = "phoneNumber",nullable = false,unique = true)
