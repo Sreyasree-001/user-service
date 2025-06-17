@@ -1,5 +1,6 @@
 package com.code.mvc.services;
 
+import com.code.mvc.dtos.requests.EmailDetailsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -12,4 +13,8 @@ public class EmailService {
     public EmailService(WebClient.Builder webClientBuilder) {
         this.webClientBuilder = webClientBuilder;
     }
+
+//    public String emailDetails(EmailDetailsRequest emailDetails){
+//        return webClientBuilder.baseUrl()
+//    }
 }
