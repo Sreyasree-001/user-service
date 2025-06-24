@@ -1,6 +1,5 @@
-package com.code.mvc.services;
+package com.code.mvc.services.implementations;
 
-import com.code.mvc.dtos.requests.EmailDetailsRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;

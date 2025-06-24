@@ -11,31 +11,45 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("SELECT u FROM User u WHERE u.username = :username") // JPQL
-    Optional<User> findByUsername(@Param("username") String username);
+    Optional<User> findByUserName(String userName);
 
-    @Query("SELECT u FROM User u WHERE u.email = :email")
-    Optional<User> findByEmail(@Param("email") String name);
+    Optional<User> findByEmail(String email);
 
-    @Query("SELECT u FROM User u WHERE u.id = :id")
-    Optional<User> findByID(@Param("id") Long id);
+    Optional<User> findById(long id);
 
-    @Query("SELECT CASE WHEN COUNT(u) > 0 " +
-            "THEN true " +
-            "ELSE false " +
-            "END FROM User u " +
-            "WHERE u.username = :username")
-    Boolean existsByUsername(@Param("username") String username);
+    Boolean existsByUserName(String userName);
 
-    @Query("SELECT CASE WHEN COUNT(u) > 0 " +
-            "THEN true " +
-            "ELSE false " +
-            "END FROM User u WHERE u.email = :email")
-    Boolean existsByEmail(@Param("email") String email);
-
-    @Query("SELECT CASE WHEN COUNT(u) > 0 " +
-            "THEN true " +
-            "ELSE false " +
-            "END FROM User u WHERE u.phone = :phone")
-    Boolean existsByPhoneNumber(@Param("phone") String phone);
+    Boolean existsByEmail(String email);
 }
+
+
+
+
+
+//    @Query("SELECT u FROM User u WHERE u.username = :username") // JPQL
+//    Optional<User> findByUserName(@Param("username") String userName);
+//
+//    @Query("SELECT u FROM User u WHERE u.email = :email")
+//    Optional<User> findByEmail(@Param("email") String name);
+//
+//    @Query("SELECT u FROM User u WHERE u.id = :id")
+//    Optional<User> findByID(@Param("id") Long id);
+//
+//    @Query("SELECT CASE WHEN COUNT(u) > 0 " +
+//            "THEN true " +
+//            "ELSE false " +
+//            "END FROM User u " +
+//            "WHERE u.username = :username")
+//    Boolean existsByUserName(@Param("username") String userName);
+//
+//    @Query("SELECT CASE WHEN COUNT(u) > 0 " +
+//            "THEN true " +
+//            "ELSE false " +
+//            "END FROM User u WHERE u.email = :email")
+//    Boolean existsByEmail(@Param("email") String email);
+//
+//    @Query("SELECT CASE WHEN COUNT(u) > 0 " +
+//            "THEN true " +
+//            "ELSE false " +
+//            "END FROM User u WHERE u.phone_number = :phone_number")
+//    Boolean existsByPhoneNumber(@Param("phone_number") String phone);

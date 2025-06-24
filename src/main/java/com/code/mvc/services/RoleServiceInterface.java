@@ -9,6 +9,6 @@ import java.util.Optional;
 public interface RoleServiceInterface {
     Optional<Role> findByRoleName(RoleName roleName);
     boolean assignRole(Long id, String roleName);
-    boolean revokeRole(Long id, String roleName);
+    boolean removeRole(Long id, String roleName);
     List<String> getUserRole(Long id);
 }

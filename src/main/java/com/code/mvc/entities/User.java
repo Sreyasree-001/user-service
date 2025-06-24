@@ -22,7 +22,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userId",unique = true,nullable = false)
+    @Column(name = "user_id",unique = true,nullable = false)
     private Long id;
 
     @NotBlank(message = "Please write your full name here")
@@ -30,7 +30,7 @@ public class User {
     private String name;
 
     @NotBlank(message = "Please enter your unique username")
-    @Column(name = "userName",unique = true,nullable = false, length = 100)
+    @Column(name = "username",unique = true,nullable = false, length = 100)
     private String userName;
 
     @NaturalId
@@ -43,7 +43,7 @@ public class User {
     @NotBlank
     @Pattern(regexp = "^(\\\\+91)?[6-9][0-9]{9}$", message = "Enter correct phone number ex:+919876543210")
     @Size(min = 10,max=15, message = "Phone number length is invalid")
-    @Column(name = "phoneNumber",nullable = false,unique = true)
+    @Column(name = "phone_number",nullable = false,unique = true)
     private String phoneNumber;
 
     @JsonIgnore
@@ -52,6 +52,7 @@ public class User {
     @Column(name = "password",nullable = false)
     private String password;
 
+    @Builder.Default
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),

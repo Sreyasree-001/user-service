@@ -10,13 +10,16 @@ import java.util.Optional;
 
 public interface UserServiceInterface {
     Mono<User> register(SignUp signUp);
-    Mono<JwtResponseMessage> login(Login signInForm);
-    Mono<Void> logout();
-    Mono<User> update(Long userId, SignUp update);
-    Mono<String> changePassword(ChangePassword request);
-    Mono<String> resetPassword(ResetPasswordRequest resetPasswordRequest);
-    String delete(Long id);
-    Optional<User> findById(Long userId);
-    Optional<User> findByUsername(String userName);
-    Page<UserDto> findAllUsers(int page, int size, String sortBy, String sortOrder);
+//    Mono<JwtResponseMessage> login(Login signInForm);
+
+//    Mono<Void> logout();
+
+//    Mono<User> update(Long id, SignUp update);
+//    Mono<String> changePassword(ChangePassword request);
+//    Mono<String> resetPassword(ResetPasswordRequest resetPasswordRequest);
+//    String deleteUser(Long id);
+
+ //   Optional<User> findById(Long id);
+ //   Optional<User> findByUserName(String userName);
+//    Page<UserDto> findAllUsers(int page, int size, String sortBy, String sortOrder);
 }
