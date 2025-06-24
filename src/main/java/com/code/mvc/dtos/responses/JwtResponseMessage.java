@@ -18,5 +18,5 @@ public class JwtResponseMessage {
     private String refreshToken;
 
     @JsonProperty("user_info")
-    private InformationMessage information;
+    private String info;
 }

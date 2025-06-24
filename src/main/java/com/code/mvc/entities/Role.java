@@ -23,5 +23,5 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @NaturalId
     @Column(name = "role_name", length = 60)
-    private RoleName name;
+    private RoleName roleName;
 }
