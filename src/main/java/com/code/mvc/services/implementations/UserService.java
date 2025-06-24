@@ -13,6 +13,8 @@ import com.code.mvc.security.usersecurity.UserDetailService;
 import com.code.mvc.services.RoleServiceInterface;
 import com.code.mvc.services.UserServiceInterface;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +25,7 @@ import reactor.core.publisher.Mono;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +39,7 @@ public class UserService implements UserServiceInterface {
     private final ModelMapper modelMapper;
     private final RoleServiceInterface roleServiceInterface;
 
+    @Autowired
     public UserService(UserRepository userRepository,
                        PasswordEncoder passwordEncoder,
                        TokenProvider tokenProvider,
@@ -66,6 +70,7 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public Mono<User> register(SignUp signUp){
+
         return Mono.defer(() -> {
             try {
                 if (existsByUsername(signUp.getUserName())) {
@@ -75,12 +80,19 @@ public class UserService implements UserServiceInterface {
                     return Mono.error(new RuntimeException("Email id " + signUp.getEmail() + " already exists!"));
                 }
                 User user = modelMapper.map(signUp, User.class);
+
                 user.setPassword(passwordEncoder.encode(signUp.getPassword()));
-                user.setRoles(signUp.getRoles()
-                        .stream()
+
+                Set<String> incomingRoles = signUp.getRoles() == null ? Set.of("USER") : signUp.getRoles();
+                user.setRoles(incomingRoles.stream()
                         .map(role -> roleServiceInterface.findByRoleName(mapToRoleName(role))
-                                .orElseThrow(() -> new RuntimeException("Role does not exist.")))
+                                .orElseThrow(() -> new RuntimeException("Role " + role + " does not exist.")))
                         .collect(Collectors.toSet()));
+//                user.setRoles(signUp.getRoles()
+//                        .stream()
+//                        .map(role -> roleServiceInterface.findByRoleName(mapToRoleName(role))
+//                                .orElseThrow(() -> new RuntimeException("Role does not exist.")))
+//                        .collect(Collectors.toSet()));
 
                 userRepository.save(user);
                 return Mono.just(user);
@@ -121,7 +133,7 @@ public class UserService implements UserServiceInterface {
                 return JwtResponseMessage.builder()
                         .accessToken(accessToken)
                         .refreshToken(refreshToken)
-                        .info("Successfully login")
+                        .info("Login Successful!")
                         .build();
             } catch (Exception e) {
                 throw new RuntimeException(e);
