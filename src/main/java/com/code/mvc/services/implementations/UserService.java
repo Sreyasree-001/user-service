@@ -1,6 +1,8 @@
 package com.code.mvc.services.implementations;
 
+import com.code.mvc.dtos.requests.Login;
 import com.code.mvc.dtos.requests.SignUp;
+import com.code.mvc.dtos.responses.JwtResponseMessage;
 import com.code.mvc.entities.RoleName;
 import com.code.mvc.entities.User;
 import com.code.mvc.repositories.UserRepository;
@@ -37,17 +39,30 @@ public class UserService implements UserServiceInterface {
         this.roleServiceInterface = roleServiceInterface;
     }
 
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUserName(username);
+    }
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+    private RoleName mapToRoleName(String roleName) {
+        return switch (roleName) {
+            case "ADMIN", "admin", "Admin" -> RoleName.ADMIN;
+            case "USER", "user", "User" -> RoleName.USER;
+            default -> null;
+        };
+    }
+
     @Override
     public Mono<User> register(SignUp signUp){
         return Mono.defer(() -> {
-            if (existsByUsername(signUp.getUserName())) {
-                return Mono.error(new RuntimeException("Username " + signUp.getUserName() + " already exists!"));
-            }
-            if (existsByEmail(signUp.getEmail())) {
-                return Mono.error(new RuntimeException("Email id " + signUp.getEmail() + " already exists!"));
-            }
-
             try {
+                if (existsByUsername(signUp.getUserName())) {
+                    return Mono.error(new RuntimeException("Username " + signUp.getUserName() + " already exists!"));
+                }
+                if (existsByEmail(signUp.getEmail())) {
+                    return Mono.error(new RuntimeException("Email id " + signUp.getEmail() + " already exists!"));
+                }
                 User user = modelMapper.map(signUp, User.class);
                 user.setPassword(passwordEncoder.encode(signUp.getPassword()));
                 user.setRoles(signUp.getRoles()
@@ -64,17 +79,15 @@ public class UserService implements UserServiceInterface {
             }
         });
     }
-    public boolean existsByUsername(String username) {
-        return userRepository.existsByUserName(username);
-    }
-    public boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
-    }
-    private RoleName mapToRoleName(String roleName) {
-        return switch (roleName) {
-            case "ADMIN", "admin", "Admin" -> RoleName.ADMIN;
-            case "USER", "user", "User" -> RoleName.USER;
-            default -> null;
-        };
+
+    @Override
+    public Mono<JwtResponseMessage> login(Login login){
+        return Mono.fromCallable(() -> {
+            try {
+                String userName = login.getUserName();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }

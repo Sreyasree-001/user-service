@@ -25,6 +25,9 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+.env
+.env.*
+*.env
 
 ### NetBeans ###
 /nbproject/private/
@@ -32,10 +35,7 @@ out/
 /dist/
 /nbdist/
 /.nb-gradle/
+env/
 
 ### VS Code ###
 .vscode/
-
-.env
-.env.*
-*.env
